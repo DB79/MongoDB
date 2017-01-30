@@ -1,0 +1,17 @@
+{
+  "name": "rest-crud",
+  "description": "REST CRUD Example Node.js & MongoDB",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "nodemon server.js"
+  },
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "mongo-crud": "^1.0.2",
+    "mongodb": "^2.2.10",
+    "nodemon": "^1.10.2"
+  }
+}

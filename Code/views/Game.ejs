@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+
+
+
+  <title><%=title%></title>
+        <script type="text/javascript" src="/../js/jquery-1.10.2.min.js"></script>
+        <link rel="stylesheet" href="/../css/style.css">
+ 
+  <style type="text/css">
+  	
+  canvas{
+  	background-color: grey;
+    width: 70%;
+    margin-left: 15%;
+    margin-right: 15%;
+    height: 300px;
+  }
+
+  </style>
+  </head>
+
+  <body>
+
+  <div style="background-color:white; width:80%;margin:auto; height:100px; text-align: center;">
+    <a class="links" href="/clicks/">Home</a>
+    
+    <a class="links" href="/clicks/stats/">View Stats</a>
+
+
+    <h2>Click in box to record a click in database <h2>
+    
+  </div>
+  
+  <canvas id="screen">
+  </canvas>
+
+    </body>
+  
+ 
+<script>
+    canvas = document.getElementById('screen');
+  	canvasContext = canvas.getContext('2d');
+  	
+  	
+  	window.onload = function(){
+  	
+  	canvas.addEventListener('click',clickScreen);
+  	}
+  	
+      
+  	function clickScreen(evt) {
+
+  	var rect = canvas.getBoundingClientRect();
+  	var root = document.documentElement;
+  	var mouseX = evt.clientX - rect.left - root.scrollLeft;
+  	var mouseY = evt.clientY- rect.top - root.scrollTop;
+  	console.log("got x-position");
+   	
+   	createPosition(mouseX,mouseY);
+   	console.log("called method");
+  		
+  	}
+
+  	function createPosition(a,b){
+            
+           $.ajax({
+            
+            url:"/clicks/",
+            type:"POST",
+            data: JSON.stringify({"x_pos":a, "y_pos": b}),
+         	  contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success:function(res){
+                window.location.reload();
+                return false;
+            },
+            error:function(xhr, status, error){
+                
+                console.log(xhr.responseText);
+                var err = '';
+                return false;
+            }
+            
+           });
+        }
+
+      
+
+</script> 
+  	
+
+
+</html>

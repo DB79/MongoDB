@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+
+
+
+  <title><%=title%></title>
+        <script type="text/javascript" src="/../js/jquery-1.10.2.min.js"></script>
+        <link rel="stylesheet" href="/../css/style.css">
+ 
+  <style type="text/css">
+  	
+  canvas{
+  	background-color: grey;
+    width: 70%;
+    margin-left: 15%;
+    margin-right: 15%;
+    height: 300px;
+  }
+
+  </style>
+  </head>
+
+  <body>
+
+  <div style="width:80%;margin:auto; height:100px; text-align: center;">
+    <a class="links" href="/clicks/">Home</a>
+    
+    <a class="links" href="/clicks/stats/">View Stats</a>
+
+    <h2>Click Data</h2>
+  </div>
+
+  <p>Total Unique Clicks: <%=totalClicks%></p>
+  <p>Total x value: <%=clickTotal[0]%></p>
+  <p>Total y value: <%=clickTotal[1]%></p>
+
+<div class="datagrid">
+    <table>
+       <thead><tr><th>No.</th><th>X-Position</th><th>Y-Position</th><th>Num Clicks</th><th>Last Click</th><th>Actions</th></tr></thead>
+        <tbody>
+       	<%
+       	if(data.length){
+        for(var i = 0;i < data.length;i++) { 
+        	if(i%2){
+       	%>
+        <tr class="alt">
+        <%}
+        else{
+        %>
+        <tr>
+        <%
+        }
+        %>
+        <td><%=i+1%></td>
+        <td><%=data[i].x_pos%></td>
+        
+        <td><%=data[i].y_pos%></td>
+
+        <td><%=data[i].clicks.length%></td> 
+
+        <%
+          var lasClickDate = data[i].clicks[data[i].clicks.length-1].clickDate;
+          var lastClickTime = data[i].clicks[data[i].clicks.length-1].clickTime
+        %>
+        <td><%=lasClickDate%> @ <%=lastClickTime%></td>
+
+        <td><input type="button" name="Delete" value="Delete Click" onclick="deleteValue('<%=data[i]._id%>')" /> </td>
+        <%}	
+        }
+        else
+        {%>
+          <td>No Data Found</td>
+        <%}%>
+        
+        </tr>
+
+        </tbody>
+     </table>
+     </div>
+
+<!-- </div> -->
+
+    </body>
+  
+ 
+<script>	
+    function deleteValue(id){
+          $.ajax({
+              url:"/clicks/Stats/"+id,
+              type:"DELETE",
+              success: function(res) {
+                  window.location.reload();
+                  return false;
+              },
+              error:function(xhr, status, error){
+              
+                  console.log(xhr.responseText);
+                  alert("Error deleting");
+                  return false;
+              }
+          });
+      }
+
+</script> 
+  	
+
+
+</html>
